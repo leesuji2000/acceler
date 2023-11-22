@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { LineChart } from 'react-native-chart-kit';
 
@@ -12,7 +12,7 @@ export default function App() {
   const [subscription, setSubscription] = useState(null);
 
   const _slow = () => Accelerometer.setUpdateInterval(1000);
-  const _fast = () => Accelerometer.setUpdateInterval(16);
+  const _fast = () => Accelerometer.setUpdateInterval(50); // Set a shorter interval for faster updates
 
   const _subscribe = () => {
     setSubscription(Accelerometer.addListener(handleAccelerometerChange));
@@ -42,7 +42,7 @@ export default function App() {
       <Text style={styles.text}>x: {data.x[data.x.length - 1]}</Text>
       <Text style={styles.text}>y: {data.y[data.y.length - 1]}</Text>
       <Text style={styles.text}>z: {data.z[data.z.length - 1]}</Text>
-      <View style={styles.chartContainer}>
+      <ScrollView contentContainerStyle={styles.chartContainer}>
         <LineChart
           data={{
             labels: Array.from({ length: data.x.length }, (_, i) => i.toString()),
@@ -91,7 +91,7 @@ export default function App() {
           yAxisSuffix=""
           chartConfig={chartConfig}
         />
-      </View>
+      </ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={subscription ? _unsubscribe : _subscribe} style={styles.button}>
           <Text>{subscription ? 'On' : 'Off'}</Text>
