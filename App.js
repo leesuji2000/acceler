@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Vibration } from 'react-native'; // Import Vibration
 import { Accelerometer } from 'expo-sensors';
 import { LineChart } from 'react-native-chart-kit';
 
 const MAX_DATA_POINTS = 50; // Set the maximum number of data points to display
+const VIBRATION_THRESHOLD = 1; // Set the threshold for vibration
 
 export default function App() {
   const [data, setData] = useState({
@@ -31,6 +32,12 @@ export default function App() {
       y: [...prevData.y.slice(-MAX_DATA_POINTS + 1), y],
       z: [...prevData.z.slice(-MAX_DATA_POINTS + 1), z],
     }));
+
+    // Check if the displacement is greater than the threshold for vibration
+    const displacement = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
+    if (displacement > VIBRATION_THRESHOLD) {
+      Vibration.vibrate();
+    }
   };
 
   useEffect(() => {
