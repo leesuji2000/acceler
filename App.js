@@ -3,6 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-nati
 import { Accelerometer } from 'expo-sensors';
 import { LineChart } from 'react-native-chart-kit';
 
+const MAX_DATA_POINTS = 50; // Set the maximum number of data points to display
+
 export default function App() {
   const [data, setData] = useState({
     x: [],
@@ -25,9 +27,9 @@ export default function App() {
 
   const handleAccelerometerChange = ({ x, y, z }) => {
     setData((prevData) => ({
-      x: [...prevData.x, x],
-      y: [...prevData.y, y],
-      z: [...prevData.z, z],
+      x: [...prevData.x.slice(-MAX_DATA_POINTS + 1), x], // Keep only the last MAX_DATA_POINTS data points
+      y: [...prevData.y.slice(-MAX_DATA_POINTS + 1), y],
+      z: [...prevData.z.slice(-MAX_DATA_POINTS + 1), z],
     }));
   };
 
