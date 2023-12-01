@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Vibration } from 
 import { Accelerometer } from 'expo-sensors';
 import { LineChart } from 'react-native-chart-kit';
 
-const MAX_DATA_POINTS = 50; // Set the maximum number of data points to display
-const VIBRATION_THRESHOLD = 1; // Set the threshold for vibration
+const MAX_DATA_POINTS = 500; // Set the maximum number of data points to display
+const VIBRATION_THRESHOLD = 3; // Set the threshold for vibration
 
 export default function App() {
   const [data, setData] = useState({
